@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/made%20by-Kvertinum01-green">
 </p>
 
-> Простейший фреймворк для рисования в консоли
+> Cross-platform framework for drawing in console
 
 ## Hello World
 
@@ -20,11 +20,11 @@ for frame in drawer.frames():
     frame.update()
 ```
 
-> Больше примеров [здесь](/examples)
+> More examples [here](/examples)
 
-## Установка
+## Installation
 
-### Новейшая версия
+### Latest version
 
 ```shell
 pip install -U "git+https://github.com/Kvertinum01/con_draw"
