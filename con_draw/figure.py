@@ -1,18 +1,14 @@
 from abc import ABCMeta, abstractmethod
 from typing import Tuple, List
 
-from .list_builder import add_str
+from .canvas import Canvas
 
 
 class Figure:
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def _check_cords(self, wh: Tuple[int, int]):
-        """raise error on bad cords"""
-
-    @abstractmethod
-    def _result_list(self, bg_char: str) -> List[str]:
+    def _result_list(self, canvas: Canvas) -> List[str]:
         """return a ready-made list"""
 
     @abstractmethod
@@ -26,26 +22,16 @@ class FillRect(Figure):
         self.char = char
         self.width, self.height = wh
 
-    def _check_cords(self, wh: Tuple[int, int]):
-        x, y = self.pos
-        mz = x < 1 or y < 1
-        if x > wh[0] or y > wh[1] or mz:
-            raise ValueError(f"Bad x or y ({x};{y})")
-
     def collide_point(self, point: Tuple[int, int]):
         return False
 
-    def __build_rect(self, bg: List[str]):
-        t_bg = bg.copy()
-
+    def __build_rect(self, canvas: Canvas):
         for ind in range(self.height):
             x, y = self.pos
-            t_bg = add_str(t_bg, (x, y + ind), self.char * self.width)
+            canvas.add_str((x, y + ind), self.char * self.width)
 
-        return t_bg
-
-    def _result_list(self, bg: List[str]):
-        return self.__build_rect(bg)
+    def _result_list(self, canvas: Canvas):
+        self.__build_rect(canvas)
 
 
 class EmptyRect(Figure):
@@ -55,33 +41,23 @@ class EmptyRect(Figure):
         self.line_size = line_size
         self.width, self.height = wh
 
-    def _check_cords(self, wh: Tuple[int, int]):
-        x, y = self.pos
-        mz = x < 1 or y < 1
-        if x > wh[0] or y > wh[1] or mz:
-            raise ValueError(f"Bad x or y ({x};{y})")
-
     def collide_point(self, point: Tuple[int, int]):
         return False
 
-    def __build_rect(self, bg: List[str]):
-        t_bg = bg.copy()
-
+    def __build_rect(self, canvas: Canvas):
         for i in range(self.height):
             t_pos = [self.pos[0], self.pos[1] + i]
 
             if i <= self.line_size - 1 or i >= self.height - self.line_size:
-                t_bg = add_str(t_bg, t_pos, self.char * self.width)
+                canvas.add_str(t_pos, self.char * self.width)
                 continue
 
             for _ in range(2):
-                t_bg = add_str(t_bg, t_pos, self.char * self.line_size)
+                canvas.add_str(t_pos, self.char * self.line_size)
                 t_pos[0] += self.width - self.line_size
 
-        return t_bg
-
-    def _result_list(self, bg: List[str]):
-        return self.__build_rect(bg)
+    def _result_list(self, canvas: Canvas):
+        self.__build_rect(canvas)
 
 
 class Line(Figure):
@@ -90,15 +66,10 @@ class Line(Figure):
         self.pos2 = pos2
         self.char = char
 
-    def _check_cords(self, wh: Tuple[int, int]):
-        pass
-
     def collide_point(self, point: Tuple[int, int]):
         return False
 
-    def __build_line(self, bg: List[str]):
-        t_bg = bg.copy()
-
+    def __build_line(self, canvas: Canvas):
         x1, y1 = self.pos1
         x2, y2 = self.pos2
 
@@ -124,7 +95,7 @@ class Line(Figure):
 
         error, t = el / 2, 0
 
-        t_bg = add_str(t_bg, (x, y), self.char)
+        canvas.add_str((x, y), self.char)
 
         while t < el:
             error -= es
@@ -136,9 +107,7 @@ class Line(Figure):
                 x += pdx
                 y += pdy
             t += 1
-            t_bg = add_str(t_bg, (x, y), self.char)
+            canvas.add_str((x, y), self.char)
 
-        return t_bg
-
-    def _result_list(self, bg: List[str]):
-        return self.__build_line(bg)
+    def _result_list(self, canvas: Canvas):
+        self.__build_line(canvas)

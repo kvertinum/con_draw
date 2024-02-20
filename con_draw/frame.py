@@ -3,16 +3,17 @@ import os
 from typing import List, Tuple
 
 from .figure import Figure
-from .list_builder import add_str
+from .canvas import Canvas
+from .events import Event
 
 
 class Frame:
-    def __init__(self, bg_char: str, key: str):
+    def __init__(self, bg_char: str, events: List[Event]):
         self.win_size = os.get_terminal_size()
         self.width, self.height = self.win_size
-        self.key = key
+        self.events = events
 
-        self._canvas = [bg_char * self.width for _ in range(self.height)]
+        self._canvas = Canvas(self.win_size, bg_char)
 
     def _check_pos(self, pos: Tuple[int]):
         x, y = pos
@@ -23,7 +24,7 @@ class Frame:
     def add_str(self, pos: Tuple[int], string: str):
         self._check_pos(pos)
 
-        self._canvas = add_str(self._canvas, pos, string)
+        self._canvas = self._canvas.add_str(pos, string)
 
     def add_list(self, pos: Tuple[int], strings: List[str]):
         self._check_pos(pos)
@@ -32,13 +33,12 @@ class Frame:
             self.add_str((pos[0], pos[1] + ind), string)
 
     def add_figure(self, figure: Figure):
-        figure._check_cords(self.win_size)
-        self._canvas = figure._result_list(self._canvas)
+        figure._result_list(self._canvas)
 
     def update(self):
         print("\033[H\033[3J", end="")
 
-        str_result = "\n".join(self._canvas)
+        str_result = "\n".join(self._canvas.data)
         sys.stdout.write(str_result)
 
-        self._canvas = []
+        self._canvas.clear()

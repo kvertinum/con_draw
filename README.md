@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/made%20by-Kvertinum01-green">
 </p>
 
-> Cross-platform framework for drawing in console
+> Easy cross-platform framework for drawing in console
 
 ## Hello World
 

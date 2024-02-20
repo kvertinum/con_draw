@@ -1,9 +1,10 @@
 import os
 import time
-from typing import Any
+from typing import Any, List
 
 from .frame import Frame
 from .kbhit import KBHit
+from .events import Event, EventTypes
 
 
 class LastKeys:
@@ -44,15 +45,23 @@ class Drawer:
         self.__loop = False
 
     def frames(self, pause=0.4):
+        events: List[Event] = []
+
         while self.__loop:
-            key = self.keyboard.getch() if self.keyboard.kbhit() else ""
+            if self.keyboard.kbhit():
+                key = self.keyboard.getch()
+
+                event = Event(EventTypes.KEY_PRESS, key=key)
+                self._last_keys.append(key)
+
+                events.append(event)
 
             tm_pause = time.time() - self.__last_time >= pause
 
-            if tm_pause or key:
-                self._last_keys.append(key)
-                frame = Frame(self.bg_char, key)
+            if tm_pause:
+                frame = Frame(self.bg_char, events)
 
                 yield frame
+                events = []
 
                 self.__last_time = time.time()

@@ -38,7 +38,7 @@ class KBHit:
         return self.decode_bytes(bytes_string)
 
     def decode_bytes(self, bytes_string: bytes):
-        base_replaces = {"\x1b": "ESCAPE", "\r": "\n"}
+        base_replaces = {"\x1b": "ESCAPE", "\r": "\n", "\x08": "BACKSPACE"}
 
         first = bytes_string[0]
         if len(bytes_string) == 1:
@@ -65,11 +65,13 @@ class KBHit:
                 "B": "ARROW_DOWN",
             }
 
+        decoded_bytes = bytes_string.decode("utf-8", "ignore")
+
         if len(bytes_string) == mv + 2:
             key_letter = chr(bytes_string[mv + 1])
-            return letters_dict.get(key_letter)
+            return letters_dict.get(key_letter) or decoded_bytes
 
-        return bytes_string.decode("utf-8", "ignore")
+        return decoded_bytes
 
     def kbhit(self):
         if os.name == "nt":
