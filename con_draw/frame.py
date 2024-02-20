@@ -2,7 +2,7 @@ import sys
 import os
 from typing import List, Tuple
 
-from .figure import Figure
+from .figures import Figure
 from .canvas import Canvas
 from .events import Event
 
@@ -24,7 +24,7 @@ class Frame:
     def add_str(self, pos: Tuple[int], string: str):
         self._check_pos(pos)
 
-        self._canvas = self._canvas.add_str(pos, string)
+        self._canvas.add_str(pos, string)
 
     def add_list(self, pos: Tuple[int], strings: List[str]):
         self._check_pos(pos)
@@ -40,5 +40,3 @@ class Frame:
 
         str_result = "\n".join(self._canvas.data)
         sys.stdout.write(str_result)
-
-        self._canvas.clear()

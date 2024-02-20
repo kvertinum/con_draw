@@ -1,5 +1,5 @@
 from con_draw import Drawer
-from con_draw.figure import FillRect, Line
+from con_draw.figures import FillRect, Line
 
 
 drawer = Drawer()
