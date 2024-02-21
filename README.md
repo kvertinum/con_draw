@@ -11,13 +11,20 @@
 ## Hello World
 
 ```python
-from con_draw import Drawer
+from con_draw import Manager, Screen, EventTypes
 
-drawer = Drawer()
+manager = Manager()
+screen = Screen()
 
-for frame in drawer.frames():
-    frame.add_str((3, 5), "Hello world")
-    frame.update()
+
+for event in manager.events():
+    if event.type == EventTypes.QUIT:
+        manager.quit()
+        break
+
+    screen.add_str((1, 1), "Hello, worl!")
+    screen.update()
+
 ```
 
 > More examples [here](/examples)

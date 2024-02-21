@@ -6,7 +6,7 @@ class Canvas:
         self.width, self.height = size
         self.char = char
 
-        self.data = [char * self.width for _ in range(self.height)]
+        self.clear()
 
     def clear(self):
         self.data = [self.char * self.width for _ in range(self.height)]

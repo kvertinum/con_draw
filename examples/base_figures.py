@@ -1,15 +1,20 @@
-from con_draw import Drawer
+from con_draw import Screen, Manager, EventTypes
 from con_draw.figures import FillRect, Line
 
 
-drawer = Drawer()
+manager = Manager()
+screen = Screen()
 
 base_rect = FillRect((1, 1), (5, 5), "#")
 base_line = Line((7, 1), (11, 5), "#")
 
 
-for frame in drawer.frames():
-    frame.add_figure(base_rect)
-    frame.add_figure(base_line)
+for event in manager.events(0.05):
+    if event.type == EventTypes.QUIT:
+        manager.quit()
+        break
 
-    frame.update()
+    screen.add_figure(base_rect)
+    screen.add_figure(base_line)
+
+    screen.update()
