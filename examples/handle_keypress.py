@@ -1,5 +1,6 @@
 from con_draw import Manager, Screen, EventTypes
 
+
 manager = Manager()
 screen = Screen()
 x = 1
