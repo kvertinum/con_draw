@@ -4,14 +4,12 @@ from typing import List, Tuple
 
 from .figures import Figure
 from .canvas import Canvas
-from .events import Event
 
 
-class Frame:
-    def __init__(self, bg_char: str, events: List[Event]):
+class Screen:
+    def __init__(self, bg_char=" "):
         self.win_size = os.get_terminal_size()
         self.width, self.height = self.win_size
-        self.events = events
 
         self._canvas = Canvas(self.win_size, bg_char)
 
@@ -40,3 +38,5 @@ class Frame:
 
         str_result = "\n".join(self._canvas.data)
         sys.stdout.write(str_result)
+
+        self._canvas.clear()

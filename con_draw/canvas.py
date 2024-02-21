@@ -4,11 +4,12 @@ from typing import Tuple
 class Canvas:
     def __init__(self, size: Tuple[int, int], char: str):
         self.width, self.height = size
+        self.char = char
 
         self.data = [char * self.width for _ in range(self.height)]
 
     def clear(self):
-        self.data = []
+        self.data = [self.char * self.width for _ in range(self.height)]
 
     def add_str(self, pos: Tuple[int, int], string: str):
         x, y = pos
