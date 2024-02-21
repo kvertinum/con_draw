@@ -23,7 +23,7 @@ for event in manager.events():
         manager.quit()
         break
 
-    screen.add_str((1, 1), "Hello, worl!")
+    screen.add_str((1, 1), "Hello, world!")
     screen.update()
 
 ```
