@@ -11,20 +11,12 @@
 ## Hello World
 
 ```python
-from con_draw import Manager, Screen, EventTypes
+from con_draw import Screen
 
 
-manager = Manager()
-screen = Screen()
-
-
-for event in manager.events():
-    if event.type == EventTypes.QUIT:
-        manager.quit()
-        break
-
-    screen.add_str((1, 1), "Hello, world!")
-    screen.update()
+screen = Screen("#")
+screen.add_str((3, 5), "Hello, world!")
+screen.update()
 
 ```
 

@@ -4,8 +4,8 @@ from typing import List
 
 class EventTypes(Enum):
     NEW_FRAME = 0
-    KEY_PRESS = 1
-    QUIT = 2
+    QUIT = 1
+    KEY_PRESS = 2
 
 
 class Event:

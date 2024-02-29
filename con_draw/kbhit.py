@@ -38,7 +38,12 @@ class KBHit:
         return self.decode_bytes(bytes_string)
 
     def decode_bytes(self, bytes_string: bytes):
-        base_replaces = {"\x1b": "ESCAPE", "\r": "\n", "\x08": "BACKSPACE"}
+        base_replaces = {
+            "\x1b": "ESCAPE",
+            "\r": "ENTER",
+            "\n": "ENTER",
+            "\x08": "BACKSPACE",
+        }
 
         first = bytes_string[0]
         if len(bytes_string) == 1:
